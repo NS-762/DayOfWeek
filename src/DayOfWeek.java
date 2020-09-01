@@ -1,16 +1,39 @@
 public enum DayOfWeek {
-    MONDAY ("Осталось 45 часов"), TUESDAY ("Осталось 36 часов"),
-    WEDNESDAY ("Осталось 27 часов"), THURSDAY ("Осталось 18 часов"),
-    FRIDAY ("Осталось 9 часов"),
-    SATURDAY ("Сегодня выходной"), SUNDAY ("Сегодня выходной");
+    MONDAY (), TUESDAY (),
+    WEDNESDAY (), THURSDAY (7),
+    FRIDAY (),
+    SATURDAY (0), SUNDAY (0);
 
-    private String workingHours;
+    private int workingHours = 9;
 
-    DayOfWeek(String workingHours) {
+    DayOfWeek() {
+    }
+
+    DayOfWeek(int workingHours) {
         this.workingHours = workingHours;
     }
 
+
     public String getWorkingHours() {
-        return workingHours;
+        int remainingHours = 0;
+
+        for (DayOfWeek day : DayOfWeek.values()) { //считает все рабочие часы за неделю
+            remainingHours += day.workingHours;
+        }
+
+        if (workingHours == 0) {
+            return "Сегодня выходной";
+        } else {
+            for (DayOfWeek day : DayOfWeek.values()) { //считает, сколько осталось часов
+                if (day != this) {
+                    remainingHours -= day.workingHours;
+                } else {
+                    break;
+                }
+            }
+//            return "Осталось + "Integer.toString(remainingHours);
+            return "Осталось часов: " + remainingHours;
+        }
+
     }
 }
